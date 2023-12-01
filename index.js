@@ -10,8 +10,6 @@ const PORT = process.env.PORT || 3000;
 const mongoURI =process.env.URI;
 
 const client = new MongoClient(mongoURI, {
-  tls: true, 
-  ssl: true,
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
