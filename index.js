@@ -17,7 +17,6 @@ const client = new MongoClient(mongoURI, {
     deprecationErrors: true,
   }
 });
-
 async function connectToMongoDB() {
   try {
     await client.connect();
@@ -38,6 +37,5 @@ app.use('/', userRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-
+// 
 
