@@ -10,6 +10,7 @@ const mongoURI = "mongodb+srv://ganesh:Ganu123@cluster0.h721f7t.mongodb.net/your
 
 const client = new MongoClient(mongoURI, {
   tls: true,
+  ssl: true,
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -37,3 +38,6 @@ app.use('/', userRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+
