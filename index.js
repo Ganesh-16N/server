@@ -3,13 +3,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
+require('dotenv').config();
+ 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const mongoURI = "mongodb+srv://ganesh:Ganu123@cluster0.h721f7t.mongodb.net/your-database-name?retryWrites=true&w=majority";
+const mongoURI = `${process.env.URI}`;
 
 const client = new MongoClient(mongoURI, {
-  tls: true,
+  tls: true, 
   ssl: true,
   serverApi: {
     version: ServerApiVersion.v1,
