@@ -13,6 +13,6 @@ const userSchema = new mongoose.Schema({
   available: { type: Boolean, required: true },
 });
 
-const User = mongoose.model('p', userSchema);
+const User = mongoose.model('u', userSchema);
 
 module.exports = User;
