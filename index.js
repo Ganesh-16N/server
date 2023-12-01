@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3000;
 const mongoURI = "mongodb+srv://ganesh:Ganu123@cluster0.h721f7t.mongodb.net/your-database-name?retryWrites=true&w=majority";
 
 const client = new MongoClient(mongoURI, {
+  tls: true,
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
