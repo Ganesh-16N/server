@@ -9,6 +9,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const mongoURI =process.env.URI;
 
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Replace '*' with the specific origin if possible
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 const client = new MongoClient(mongoURI, {
   serverApi: {
     version: ServerApiVersion.v1,
