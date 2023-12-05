@@ -12,10 +12,21 @@ async function createUser(req, res) {
 
 async function getAllUsers(req, res) {
   const { page = 1, limit = 10 } = req.query;
+  const query = {};
+
+  // If searchTerm is provided, add regex conditions to the query for relevant fields
+  if (searchTerm) {
+    query.$or = [
+      { first_name: { $regex: new RegExp(searchTerm, 'i') } },
+      { last_name: { $regex: new RegExp(searchTerm, 'i') } },
+      { email: { $regex: new RegExp(searchTerm, 'i') } },
+      // Add more fields as needed
+    ];
+  }
 
   try {
     const data = await User
-      .find()
+      .find(query)
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec();
