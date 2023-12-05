@@ -17,9 +17,9 @@ async function getAllUsers(req, res) {
   // If searchTerm is provided, add regex conditions to the query for relevant fields
   if (searchTerm) {
     query.$or = [
-      { first_name: { $regex: new RegExp(searchTerm, 'i') } },
-      { last_name: { $regex: new RegExp(searchTerm, 'i') } },
-      { email: { $regex: new RegExp(searchTerm, 'i') } },
+      { first_name: { $regex: new RegExp(searchTerm, 'g') } },
+      { last_name: { $regex: new RegExp(searchTerm, 'g') } },
+      { email: { $regex: new RegExp(searchTerm, 'g') } },
       // Add more fields as needed
     ];
   }
