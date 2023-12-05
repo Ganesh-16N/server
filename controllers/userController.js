@@ -14,13 +14,13 @@ async function getAllUsers(req, res) {
   const { page = 1, limit = 10 } = req.query;
 
   try {
-    const data = await YourModel
+    const data = await User
       .find()
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec();
 
-    const count = await YourModel.countDocuments();
+    const count = await User.countDocuments();
 
     res.json({
       data,
