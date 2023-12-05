@@ -2,26 +2,12 @@ const TeamMember = require('../models/teamModel');
 
 // Get all team members
 const getAllMembers = async (req, res) => {
-    const { page = 1, limit = 20 } = req.query;
-    
-    try {
-        const data = await TeamMember
-          .find()
-          .limit(limit * 1)
-          .skip((page - 1) * limit)
-          .exec();
-    
-        const count = await TeamMember.countDocuments();
-    
-        res.json({
-          data,
-          totalPages: Math.ceil(count / limit),
-          currentPage: page,
-        });
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-      }
+  try {
+    const members = await TeamMember.find();
+    res.json(members);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // Create a new team member
