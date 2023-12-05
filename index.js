@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
+const teamRoutes = require('./routes/teamRoutes');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config();
  
@@ -34,15 +35,16 @@ async function connectToMongoDB() {
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }
-}
+} 
 
 connectToMongoDB();
 app.use(express.json());
 
 app.use('/', userRoutes);
+app.use('/', teamRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 // 
-
+ 

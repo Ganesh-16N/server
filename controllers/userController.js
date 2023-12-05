@@ -35,11 +35,12 @@ async function updateUserById(req, res) {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!user) {
-      return res.status(404).send();
+      return res.status(404).send({ error: 'User not found' });
     }
     res.send(user);
   } catch (error) {
-    res.status(400).send(error);
+    console.error(error); // Log the error for debugging
+    res.status(400).send({ error: 'Invalid update data' });
   }
 }
 
