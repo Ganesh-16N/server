@@ -11,11 +11,25 @@ async function createUser(req, res) {
 }
 
 async function getAllUsers(req, res) {
+  const { page = 1, limit = 10 } = req.query;
+
   try {
-    const users = await User.find();
-    res.send(users);
-  } catch (error) {
-    res.status(500).send(error);
+    const data = await YourModel
+      .find()
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec();
+
+    const count = await YourModel.countDocuments();
+
+    res.json({
+      data,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
 }
 
