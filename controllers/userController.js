@@ -9,9 +9,8 @@ async function createUser(req, res) {
     res.status(400).send(error);
   }
 }
-
 async function getAllUsers(req, res) {
-  const { page = 1, limit = 10, searchTerm } = req.query;
+  const { page = 1, limit = 10, searchTerm, sortFields, sortOrders } = req.query;
   const query = {};
 
   // If searchTerm is provided, add regex conditions to the query for relevant fields
@@ -24,18 +23,29 @@ async function getAllUsers(req, res) {
     ];
   }
 
-  // console.log(query);
-
   try {
+    const sortOptions = {};
+    if (sortFields && sortOrders) {
+      // Ensure that both sortFields and sortOrders are arrays of the same length
+      if (Array.isArray(sortFields) && Array.isArray(sortOrders) && sortFields.length === sortOrders.length) {
+        sortFields.forEach((field, index) => {
+          // Check for specific fields for sorting
+          if (field === 'gender' || field === 'available' || field === 'domain') {
+            sortOptions[field] = sortOrders[index] === 'asc' ? 1 : -1;
+          }
+        });
+      }
+    }
+
     const data = await User
       .find(query)
-      .limit(limit * 1) 
+      .limit(limit * 1)
       .skip((page - 1) * limit)
+      .sort(sortOptions)  // Add sorting based on the provided options
       .exec();
 
     const count = await User.countDocuments();
 
-    console.log(data)
     res.json({
       data,
       totalPages: Math.ceil(count / limit),
