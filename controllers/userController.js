@@ -10,7 +10,7 @@ async function createUser(req, res) {
   }
 }
 async function getAllUsers(req, res) {
-  const { page = 1, limit = 10, searchTerm, genderTerm} = req.query;
+  const { page = 1, limit = 10, searchTerm, genderTerm="", domainTerm="", availableTerm=""} = req.query;
   const query = {};
 
   // If searchTerm is provided, add regex conditions to the query for relevant fields
