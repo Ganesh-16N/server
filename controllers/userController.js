@@ -17,22 +17,25 @@ async function getAllUsers(req, res) {
   // If searchTerm is provided, add regex conditions to the query for relevant fields
   if (searchTerm) {
     query.$or = [
-      { first_name: { $regex: new RegExp(searchTerm, 'g') } },
-      { last_name: { $regex: new RegExp(searchTerm, 'g') } },
-      { email: { $regex: new RegExp(searchTerm, 'g') } },
+      { first_name: { $regex: new RegExp(searchTerm, 'gi') } },
+      { last_name: { $regex: new RegExp(searchTerm, 'gi') } },
+      { email: { $regex: new RegExp(searchTerm, 'gi') } },
       // Add more fields as needed
     ];
   }
 
+  // console.log(query);
+
   try {
     const data = await User
       .find(query)
-      .limit(limit * 1)
+      .limit(limit * 1) 
       .skip((page - 1) * limit)
       .exec();
 
     const count = await User.countDocuments();
 
+    console.log(data)
     res.json({
       data,
       totalPages: Math.ceil(count / limit),
