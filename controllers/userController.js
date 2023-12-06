@@ -32,7 +32,6 @@ async function getAllUsers(req, res) {
       .find(query)
       .limit(limit * 1)
       .skip((page - 1) * limit)
-      // .sort(sortOptions)  // Add sorting based on the provided options
       .exec();
 
     const count = await User.countDocuments();
