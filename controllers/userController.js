@@ -11,28 +11,23 @@ async function createUser(req, res) {
 }
 
 async function getAllUsers(req, res) {
-  const { page = 1, limit = 10, searchTerm, gender, domain, available } = req.query;
+  const { page = 1, limit = 20, searchTerm, gender, domain, available } = req.query;
   const query = {};
 
-  // If searchTerm is provided, add regex conditions to the query for relevant fields
   if (searchTerm) {
     query.$or = [
       { first_name: { $regex: new RegExp(searchTerm, 'gi') } },
       { last_name: { $regex: new RegExp(searchTerm, 'gi') } },
       { email: { $regex: new RegExp(searchTerm, 'gi') } },
-      // { available: { $regex: new RegExp(true, 'g') } },
-      // Add more fields as needed
     ];
   }
 
   
 // If gender is provided, add the condition to filter by gender
 
-  gender ? query.gender = gender : null ;// Assuming gender is stored in lowercase (e.g., 'male', 'female')
-  domain ? query.domain = domain : null ;// Assuming gender is stored in lowercase (e.g., 'male', 'female')
-  available ? query.available = available : null ;// Assuming gender is stored in lowercase (e.g., 'male', 'female')
-
-  console.log(query);
+  gender ? query.gender = gender : null ; 
+  domain ? query.domain = domain : null ; 
+  available ? query.available = available : null ; 
 
   try {
     const data = await User
