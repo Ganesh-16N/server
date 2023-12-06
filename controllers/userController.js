@@ -10,7 +10,7 @@ async function createUser(req, res) {
   }
 }
 async function getAllUsers(req, res) {
-  const { page = 1, limit = 10, searchTerm, genserTerm} = req.query;
+  const { page = 1, limit = 10, searchTerm, genderTerm} = req.query;
   const query = {};
 
   // If searchTerm is provided, add regex conditions to the query for relevant fields
@@ -19,7 +19,7 @@ async function getAllUsers(req, res) {
       { first_name: { $regex: new RegExp(searchTerm, 'gi') } },
       { last_name: { $regex: new RegExp(searchTerm, 'gi') } },
       { email: { $regex: new RegExp(searchTerm, 'gi') } },
-      { gender: { $regex: new RegExp(genserTerm, 'gi') } },
+      { gender: { $regex: new RegExp(genderTerm, 'gi') } },
       { domain: { $regex: new RegExp(domainTerm, 'gi') } },
       { available: { $regex: new RegExp(availableTerm, 'gi') } },
       // Add more fields as needed
