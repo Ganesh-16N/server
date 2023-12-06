@@ -10,7 +10,7 @@ async function createUser(req, res) {
   }
 }
 async function getAllUsers(req, res) {
-  const { page = 1, limit = 10, searchTerm, sortFields, sortOrders } = req.query;
+  const { page = 1, limit = 10, searchTerm, genserTerm} = req.query;
   const query = {};
 
   // If searchTerm is provided, add regex conditions to the query for relevant fields
@@ -19,29 +19,20 @@ async function getAllUsers(req, res) {
       { first_name: { $regex: new RegExp(searchTerm, 'gi') } },
       { last_name: { $regex: new RegExp(searchTerm, 'gi') } },
       { email: { $regex: new RegExp(searchTerm, 'gi') } },
+      { gender: { $regex: new RegExp(genserTerm, 'gi') } },
+      { domain: { $regex: new RegExp(domainTerm, 'gi') } },
+      { available: { $regex: new RegExp(availableTerm, 'gi') } },
       // Add more fields as needed
     ];
   }
 
   try {
-    const sortOptions = {};
-    if (sortFields && sortOrders) {
-      // Ensure that both sortFields and sortOrders are arrays of the same length
-      if (Array.isArray(sortFields) && Array.isArray(sortOrders) && sortFields.length === sortOrders.length) {
-        sortFields.forEach((field, index) => {
-          // Check for specific fields for sorting
-          if (field === 'gender' || field === 'available' || field === 'domain') {
-            sortOptions[field] = sortOrders[index] === 'asc' ? 1 : -1;
-          }
-        });
-      }
-    }
 
     const data = await User
       .find(query)
       .limit(limit * 1)
       .skip((page - 1) * limit)
-      .sort(sortOptions)  // Add sorting based on the provided options
+      // .sort(sortOptions)  // Add sorting based on the provided options
       .exec();
 
     const count = await User.countDocuments();
