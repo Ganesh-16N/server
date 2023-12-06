@@ -23,7 +23,6 @@ async function getAllUsers(req, res) {
   }
 
   
-// If gender is provided, add the condition to filter by gender
 
   gender ? query.gender = gender : null ; 
   domain ? query.domain = domain : null ; 
